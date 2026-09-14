@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,6 +30,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -136,13 +140,26 @@ private fun ArticleCard(article: Article, accentColor: Color) {
         Column(modifier = Modifier.padding(12.dp)) {
 
             if (!article.imageUrl.isNullOrBlank()) {
+                // Aspect ratio is unknown until the image loads; fall back to a fixed
+                // height placeholder, then switch to the image's real ratio on success
+                // so the cell's height matches its content instead of cropping it.
+                var aspectRatio by remember(article.imageUrl) { mutableStateOf<Float?>(null) }
+
                 AsyncImage(
                     model = article.imageUrl,
                     contentDescription = article.title,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.FillWidth,
+                    onSuccess = { state ->
+                        val size = state.painter.intrinsicSize
+                        if (size.width > 0f && size.height > 0f) {
+                            aspectRatio = size.width / size.height
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(180.dp)
+                        .then(
+                            aspectRatio?.let { Modifier.aspectRatio(it) } ?: Modifier.height(180.dp)
+                        )
                         .clip(RoundedCornerShape(8.dp))
                 )
                 Spacer(modifier = Modifier.height(10.dp))
