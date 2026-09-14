@@ -20,7 +20,7 @@ import javax.inject.Inject
  *  - Initialises [BubbleState] list once canvas dimensions are known.
  *  - Advances physics each frame via [BubblePhysics.step].
  *
- * No use case is needed here — bubble animation is purely a presentation concern
+ * No use case is needed here, bubble animation is purely a presentation concern
  * with no domain business logic.
  */
 @HiltViewModel

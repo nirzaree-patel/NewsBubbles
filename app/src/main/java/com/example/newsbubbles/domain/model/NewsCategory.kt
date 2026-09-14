@@ -2,7 +2,7 @@ package com.example.newsbubbles.domain.model
 
 /**
  * Domain model for the seven fixed News API categories.
- * Pure Kotlin — no Android or Compose imports.
+ * Pure Kotlin, no Android or Compose imports.
  */
 enum class NewsCategory(
     val displayName: String,

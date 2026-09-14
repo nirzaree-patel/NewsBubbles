@@ -9,11 +9,9 @@ import kotlin.math.sqrt
  * Mutable physics state for a single bubble. All values are in pixels.
  *
  * [x] and [y] are backed by Compose's snapshot state (`mutableFloatStateOf`) rather than
- * plain vars. Mutating them here — from [BubblePhysics.step], once per frame — invalidates
+ * plain vars. Mutating them here from [BubblePhysics.step], once per frame invalidates
  * only the composables that read them, so the UI animates without ever needing to publish
- * a new List/StateFlow value. (A data class with plain `var` fields mutated in place would
- * make every frame's list "equal" to the last by reference, which StateFlow treats as a
- * no-op and never emits — the bug this class works around.)
+ * a new List/StateFlow value.
  */
 class BubbleState(
     val uiModel: BubbleUiModel,

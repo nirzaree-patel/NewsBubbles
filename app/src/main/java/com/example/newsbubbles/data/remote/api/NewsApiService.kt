@@ -9,7 +9,7 @@ interface NewsApiService {
     /**
      * Fetches top headlines for a given [category].
      *
-     * The category is a request filter only — it is NOT included in the response payload.
+     * The category is a request filter only, it is NOT included in the response payload.
      * The caller (repository) is responsible for tagging each article batch with the
      * category that was requested.
      */

@@ -11,7 +11,7 @@ import javax.inject.Singleton
 /**
  * Binds the domain [NewsRepository] interface to its data-layer implementation.
  *
- * Using @Binds (instead of @Provides) lets Hilt avoid creating a wrapper object —
+ * Using @Binds (instead of @Provides) lets Hilt avoid creating a wrapper object,
  * it just maps the interface type directly to the concrete class.
  */
 @Module
